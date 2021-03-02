@@ -1,0 +1,263 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="emploidutempsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Cours">
+          <Key>
+            <PropertyRef Name="idCours" />
+          </Key>
+          <Property Name="idCours" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="heuredebut" Type="nchar" MaxLength="8" />
+          <Property Name="heurefin" Type="nchar" MaxLength="8" />
+          <Property Name="jour" Type="nchar" MaxLength="32" />
+          <Property Name="professeur" Type="nchar" MaxLength="32" />
+          <Property Name="salle" Type="nchar" MaxLength="32" />
+          <Property Name="matiere" Type="nchar" MaxLength="32" />
+        </EntityType>
+        <EntityType Name="Presence">
+          <Key>
+            <PropertyRef Name="idPresence" />
+          </Key>
+          <Property Name="idPresence" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idCours" Type="int" Nullable="false" />
+          <Property Name="idUtilisateurs" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Utilisateurs">
+          <Key>
+            <PropertyRef Name="idUtilisateurs" />
+          </Key>
+          <Property Name="idUtilisateurs" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nom" Type="nchar" MaxLength="30" />
+          <Property Name="Prenom" Type="nchar" MaxLength="30" />
+        </EntityType>
+        <Association Name="FK_Presence_Cours">
+          <End Role="Cours" Type="Self.Cours" Multiplicity="1" />
+          <End Role="Presence" Type="Self.Presence" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cours">
+              <PropertyRef Name="idCours" />
+            </Principal>
+            <Dependent Role="Presence">
+              <PropertyRef Name="idCours" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Presence_Utilisateurs">
+          <End Role="Utilisateurs" Type="Self.Utilisateurs" Multiplicity="1" />
+          <End Role="Presence" Type="Self.Presence" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utilisateurs">
+              <PropertyRef Name="idUtilisateurs" />
+            </Principal>
+            <Dependent Role="Presence">
+              <PropertyRef Name="idUtilisateurs" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="ADD_PRESENCE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id_User" Type="int" Mode="In" />
+          <Parameter Name="Id_Cours_choisi" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ADD_UTILISATEURS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Nom" Type="nchar" Mode="In" />
+          <Parameter Name="Prenom" Type="nchar" Mode="In" />
+        </Function>
+        <Function Name="DELETE_ALL_PRESENCE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Get_all_cours" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Get_All_USERS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Get_Presence" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_Cours" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="emploidutempsModelStoreContainer">
+          <EntitySet Name="Cours" EntityType="Self.Cours" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Presence" EntityType="Self.Presence" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Utilisateurs" EntityType="Self.Utilisateurs" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Presence_Cours" Association="Self.FK_Presence_Cours">
+            <End Role="Cours" EntitySet="Cours" />
+            <End Role="Presence" EntitySet="Presence" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Presence_Utilisateurs" Association="Self.FK_Presence_Utilisateurs">
+            <End Role="Utilisateurs" EntitySet="Utilisateurs" />
+            <End Role="Presence" EntitySet="Presence" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="NS_BASE" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="C_Cours">
+          <Key>
+            <PropertyRef Name="idCours" />
+          </Key>
+          <Property Name="idCours" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="heuredebut" Type="String" />
+          <Property Name="heurefin" Type="String" />
+          <Property Name="jour" Type="String" MaxLength="32" FixedLength="true" Unicode="true" />
+          <Property Name="professeur" Type="String" MaxLength="32" FixedLength="true" Unicode="true" />
+          <Property Name="salle" Type="String" MaxLength="32" FixedLength="true" Unicode="true" />
+          <Property Name="matiere" Type="String" MaxLength="32" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="C_Presence">
+          <Key>
+            <PropertyRef Name="idPresence" />
+          </Key>
+          <Property Name="idPresence" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idCours" Type="Int32" Nullable="false" />
+          <Property Name="idUtilisateurs" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="C_Utilisateurs">
+          <Key>
+            <PropertyRef Name="idUtilisateurs" />
+          </Key>
+          <Property Name="idUtilisateurs" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="Prenom" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_Presence_Cours">
+          <End Role="Cours" Type="NS_BASE.C_Cours" Multiplicity="1" />
+          <End Role="Presence" Type="NS_BASE.C_Presence" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cours">
+              <PropertyRef Name="idCours" />
+            </Principal>
+            <Dependent Role="Presence">
+              <PropertyRef Name="idCours" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Presence_Utilisateurs">
+          <End Role="Utilisateurs" Type="NS_BASE.C_Utilisateurs" Multiplicity="1" />
+          <End Role="Presence" Type="NS_BASE.C_Presence" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utilisateurs">
+              <PropertyRef Name="idUtilisateurs" />
+            </Principal>
+            <Dependent Role="Presence">
+              <PropertyRef Name="idUtilisateurs" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="C_BASE" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Les_Cours" EntityType="NS_BASE.C_Cours" />
+          <EntitySet Name="Les_Presence" EntityType="NS_BASE.C_Presence" />
+          <EntitySet Name="Les_Utilisateurs" EntityType="NS_BASE.C_Utilisateurs" />
+          <AssociationSet Name="FK_Presence_Cours" Association="Self.FK_Presence_Cours">
+            <End Role="Cours" EntitySet="Les_Cours" />
+            <End Role="Presence" EntitySet="Les_Presence" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Presence_Utilisateurs" Association="Self.FK_Presence_Utilisateurs">
+            <End Role="Utilisateurs" EntitySet="Les_Utilisateurs" />
+            <End Role="Presence" EntitySet="Les_Presence" />
+          </AssociationSet>
+          <FunctionImport Name="ADD_PRESENCE">
+            <Parameter Name="Id_User" Mode="In" Type="Int32" />
+            <Parameter Name="Id_Cours_choisi" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Get_Presence" ReturnType="Collection(NS_BASE.Get_Presence_Result)">
+          <Parameter Name="id_Cours" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Get_all_cours1" EntitySet="Les_Cours" ReturnType="Collection(NS_BASE.C_Cours)" />
+          <FunctionImport Name="ADD_UTILISATEURS">
+            <Parameter Name="Nom" Mode="In" Type="String" />
+            <Parameter Name="Prenom" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="DELETE_ALL_PRESENCE" />
+          <FunctionImport Name="Get_All_USERS" EntitySet="Les_Utilisateurs" ReturnType="Collection(NS_BASE.C_Utilisateurs)" />
+        </EntityContainer>
+        <ComplexType Name="Get_Presence_Result">
+          <Property Type="String" Name="Nom" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Prenom" Nullable="true" MaxLength="30" />
+          <Property Type="Int32" Name="idCours" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="Get_all_cours_Result">
+          <Property Type="Int32" Name="idCours" Nullable="false" />
+          <Property Type="Time" Name="heuredebut" Nullable="true" />
+          <Property Type="Time" Name="heurefin" Nullable="true" />
+          <Property Type="String" Name="jour" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="professeur" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="salle" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="matiere" Nullable="true" MaxLength="32" />
+        </ComplexType>
+        <ComplexType Name="Get_All_USERS_Result">
+          <Property Type="Int32" Name="idUtilisateurs" Nullable="false" />
+          <Property Type="String" Name="Nom" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Prenom" Nullable="true" MaxLength="30" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="emploidutempsModelStoreContainer" CdmEntityContainer="C_BASE">
+          <EntitySetMapping Name="Les_Cours">
+            <EntityTypeMapping TypeName="NS_BASE.C_Cours">
+              <MappingFragment StoreEntitySet="Cours">
+                <ScalarProperty Name="heuredebut" ColumnName="heuredebut" />
+                <ScalarProperty Name="idCours" ColumnName="idCours" />
+                <ScalarProperty Name="heurefin" ColumnName="heurefin" />
+                <ScalarProperty Name="jour" ColumnName="jour" />
+                <ScalarProperty Name="professeur" ColumnName="professeur" />
+                <ScalarProperty Name="salle" ColumnName="salle" />
+                <ScalarProperty Name="matiere" ColumnName="matiere" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Les_Presence">
+            <EntityTypeMapping TypeName="NS_BASE.C_Presence">
+              <MappingFragment StoreEntitySet="Presence">
+                <ScalarProperty Name="idPresence" ColumnName="idPresence" />
+                <ScalarProperty Name="idCours" ColumnName="idCours" />
+                <ScalarProperty Name="idUtilisateurs" ColumnName="idUtilisateurs" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Les_Utilisateurs">
+            <EntityTypeMapping TypeName="NS_BASE.C_Utilisateurs">
+              <MappingFragment StoreEntitySet="Utilisateurs">
+                <ScalarProperty Name="idUtilisateurs" ColumnName="idUtilisateurs" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="Prenom" ColumnName="Prenom" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="ADD_PRESENCE" FunctionName="emploidutempsModel.Store.ADD_PRESENCE" />
+          <FunctionImportMapping FunctionImportName="Get_Presence" FunctionName="emploidutempsModel.Store.Get_Presence">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="NS_BASE.Get_Presence_Result">
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="Prenom" ColumnName="Prenom" />
+                <ScalarProperty Name="idCours" ColumnName="idCours" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Get_all_cours1" FunctionName="emploidutempsModel.Store.Get_all_cours" />
+          <FunctionImportMapping FunctionImportName="ADD_UTILISATEURS" FunctionName="emploidutempsModel.Store.ADD_UTILISATEURS" />
+          <FunctionImportMapping FunctionImportName="DELETE_ALL_PRESENCE" FunctionName="emploidutempsModel.Store.DELETE_ALL_PRESENCE" />
+          <FunctionImportMapping FunctionImportName="Get_All_USERS" FunctionName="emploidutempsModel.Store.Get_All_USERS" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
